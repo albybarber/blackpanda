@@ -1,0 +1,141 @@
+@import '../../scss/normalize.scss';
+
+
+body {
+    text-align: center;
+
+    [class*='col-']{
+        background-color: lime; // testing
+    }
+}
+
+$max-width: 1200px;
+$gutter-default: 10px;
+$columns-default: 12;
+
+@mixin grid($cell: 1, $columns: 12){
+    [class*='col-#{$cell}'] {
+        width: calc(99.99% * #{$cell}/#{$columns} - (#{$gutter-default} - #{$gutter-default} * #{$cell}/#{$columns}));
+    }
+
+    [class*='col-#{$cell}']:nth-child(1n) {
+        float: left;
+        margin-right: $gutter-default;
+        clear: none;
+    }
+
+    [class*='col-#{$cell}']:last-child {
+        margin-right: 0; 
+    }
+
+    [class*='col-#{$cell}']:nth-child(#{$columns}n) {
+        margin-right: 0;
+        float: right; 
+    }
+
+    [class*='col-#{$cell}']:nth-child(#{$columns}n + 1) {
+        clear: left; 
+    }
+}
+
+%clearfix{
+    & {
+        margin-top: 20px;
+        *zoom: 1; 
+    }
+
+    &:before {
+        content: '';
+        display: table;
+    }
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+@for $i from 1 through $columns-default {
+    @include grid($i);
+}
+
+.grid-root {
+    position: relative;
+    overflow: hidden;
+    width : 100%;
+}
+
+.grid-container {
+    max-width : 1200px; 
+    margin: 0 auto;
+}
+
+.row{
+    @extend %clearfix;
+}
+
+////////// sidebar
+
+$side-bar-width: 300px;
+
+.controls {
+    margin: 20px;
+}
+
+[class*='slidebar']{
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+%slidebar-base {
+    width: $side-bar-width;
+    transform: translateX(-$side-bar-width);
+    transition: all 1.5s ease;
+    background-color: salmon;
+
+    ~ .grid-container{
+        transition: transform 1.5s ease;
+        z-index: 1;
+    }
+
+    // right
+    &[data-sidebar-postion='right'] {
+        right: 0;
+        left: auto;
+        transform: translateX($side-bar-width);
+    }
+
+    &[data-sidebar-state='open'] {
+        transform: translateX(0);
+        z-index: 2;
+    }
+
+}
+
+[data-sidebar-type='plop'] {
+    @extend %slidebar-base;
+}
+
+[data-sidebar-type='push'] {
+    @extend %slidebar-base;
+
+    &[data-sidebar-state='open'] {
+        ~ .grid-container{
+            transform: translateX($side-bar-width);
+        }
+
+        &[data-sidebar-postion='right'] {
+            ~ .grid-container{
+                transform: translateX(-$side-bar-width);
+            }
+        }
+    }
+}
+
+
+
+
+

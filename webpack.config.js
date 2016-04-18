@@ -1,9 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var autoprefixer = require('autoprefixer');
+// postCSS
+const autoprefixer = require('autoprefixer');
+const lost = require('lost');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -13,7 +15,7 @@ module.exports = {
     'babel-polyfill',
     path.join(__dirname, 'app')
   ],
-  resolve: {extensions: ['', '.js', '.jsx']},
+  resolve: {extensions: ['', '.js', '.jsx', '.scss']},
   output: {
     path: path.join(__dirname, 'dev'),
     filename: 'bundle.js'
@@ -40,7 +42,7 @@ module.exports = {
     ]
   },
   postcss: function() {
-    return [autoprefixer];
+    return [autoprefixer, lost];
   },
 
   sassLoader: {
