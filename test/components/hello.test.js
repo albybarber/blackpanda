@@ -1,7 +1,7 @@
 import React from 'react'
 import test from 'blue-tape'
 import {shallow} from 'enzyme'
-import Hello from '../../app/components/hello'
+import Hello from '../../app/components/hello/hello'
 
 test('hello component to contain a Hello World message', t => {
   const helloComponent = shallow(<Hello />)

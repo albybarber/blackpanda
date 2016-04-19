@@ -42,7 +42,7 @@ module.exports = {
     ]
   },
   postcss: function() {
-    return [autoprefixer, lost];
+    return [autoprefixer, lost]
   },
 
   sassLoader: {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import './grid.scss'
 
-export default class GridExample extends React.Component {
+export default class Grid extends React.Component {
   constructor (props) {
     super(props)
     this.togglePush = this.togglePush.bind(this)
