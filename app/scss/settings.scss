@@ -1,0 +1,21 @@
+
+$letter-spacing: 0.5px;
+
+
+/* ========== Responsive breakpoints =========== */
+
+// to deprecate
+$responsive-small: "(max-width: 600px)";
+$responsive-medium: "(min-width: 600px) and (max-width: 800px)";
+$responsive-large-to-small: "(min-width: 600px) and (max-width: 960px)";
+$responsive-large: "(min-width: 600px)";
+
+// Responsive Breakpoints
+$responsive-breakpoint-medium: 480px;
+$responsive-breakpoint-large: 800px;
+
+$responsive-small-only: "(max-width: #{ $responsive-breakpoint-medium - 1px })";
+$responsive-medium-only: "(min-width: #{ $responsive-breakpoint-medium }) and (max-width: #{ $responsive-breakpoint-large - 1px})";
+$responsive-large-only: "(min-width: #{ $responsive-breakpoint-large })";
+$responsive-medium-up: "(min-width: #{ $responsive-breakpoint-medium })";
+$responsive-medium-down: "(max-width: #{ $responsive-breakpoint-large - 1px })";

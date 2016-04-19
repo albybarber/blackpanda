@@ -1,141 +1,176 @@
-@import '../../scss/normalize.scss';
+@import 'grid_mixins.scss';
+@import '../../scss/settings.scss';
 
+$grid-max-width: 1080px;
 
-body {
+$gutter: 0;
+
+$responsive-gutter-small: $gutter;
+$responsive-gutter-medium: $gutter;
+$responsive-gutter-large: $gutter;
+
+$responsive-grid-small: 'g-cell';
+$responsive-grid-medium: 'g-cell-md';
+$responsive-grid-large: 'g-cell-lg';
+
+$responsive-offset-small: 'g-offset';
+$responsive-offset-medium: 'g-offset-md';
+$responsive-offset-large: 'g-offset-lg';
+
+$responsive-image-small: 'img';
+$responsive-image-medium: 'img-md';
+$responsive-image-large: 'img-lg';
+
+.styleguide-grid-coloring .g-cell {
+    border: 1px solid #0f90ba;
+    background: #C8F2FF;
+    color: black;
+    min-height: 50px;
     text-align: center;
+}
 
-    [class*='col-']{
-        background-color: lime; // testing
+.styleguide-grid-coloring .g-vertical-group {
+
+    border: 1px solid #0f90ba;
+
+    &:first-child .g-cell {
+        height: 75px;
+    }
+
+    .g-cell {
+        border: 1px solid #AAE8FC;
     }
 }
 
-$max-width: 1200px;
-$gutter-default: 10px;
-$columns-default: 12;
-
-@mixin grid($cell: 1, $columns: 12){
-    [class*='col-#{$cell}'] {
-        width: calc(99.99% * #{$cell}/#{$columns} - (#{$gutter-default} - #{$gutter-default} * #{$cell}/#{$columns}));
-    }
-
-    [class*='col-#{$cell}']:nth-child(1n) {
-        float: left;
-        margin-right: $gutter-default;
-        clear: none;
-    }
-
-    [class*='col-#{$cell}']:last-child {
-        margin-right: 0; 
-    }
-
-    [class*='col-#{$cell}']:nth-child(#{$columns}n) {
-        margin-right: 0;
-        float: right; 
-    }
-
-    [class*='col-#{$cell}']:nth-child(#{$columns}n + 1) {
-        clear: left; 
-    }
+.styleguide-grid-content {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    line-height: 50px;
 }
 
-%clearfix{
-    & {
-        margin-top: 20px;
-        *zoom: 1; 
-    }
 
-    &:before {
-        content: '';
-        display: table;
-    }
+%g-element {
+    box-sizing: border-box;
 
-    &:after {
-        content: '';
-        display: table;
-        clear: both;
-    }
-}
-
-@for $i from 1 through $columns-default {
-    @include grid($i);
-}
-
-.grid-root {
-    position: relative;
+    display: inline-block;
     overflow: hidden;
-    width : 100%;
+    vertical-align: top;
 }
 
-.grid-container {
-    max-width : 1200px; 
-    margin: 0 auto;
+.g-group {
+    /* font-size whitespace hack. This gets rid of spaces between grid cells */
+    font-size: 0;
+    letter-spacing: 0;
 }
 
-.row{
-    @extend %clearfix;
+.g-group--full-width {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
 }
 
-////////// sidebar
-
-$side-bar-width: 300px;
-
-.controls {
-    margin: 20px;
+.g-grid {
+    @extend .g-group;
+    max-width: $grid-max-width;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-[class*='slidebar']{
-    min-height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
+.g-vertical-group {
+    @extend %g-element;
+    @extend .g-group;
+
+    padding: 0;
 }
 
-%slidebar-base {
-    width: $side-bar-width;
-    transform: translateX(-$side-bar-width);
-    transition: all 1.5s ease;
-    background-color: salmon;
+.g-cell {
+    @extend %g-element;
 
-    ~ .grid-container{
-        transition: transform 1.5s ease;
-        z-index: 1;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 400;
+
+    letter-spacing: $letter-spacing;
+
+    &.g-cell--no-gutters {
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
-    // right
-    &[data-sidebar-postion='right'] {
-        right: 0;
-        left: auto;
-        transform: translateX($side-bar-width);
-    }
+    /* remove the overflow: hidden safety net.
 
-    &[data-sidebar-state='open'] {
-        transform: translateX(0);
-        z-index: 2;
-    }
+    BE CAREFUL WHEN ADDING.
 
-}
-
-[data-sidebar-type='plop'] {
-    @extend %slidebar-base;
-}
-
-[data-sidebar-type='push'] {
-    @extend %slidebar-base;
-
-    &[data-sidebar-state='open'] {
-        ~ .grid-container{
-            transform: translateX($side-bar-width);
-        }
-
-        &[data-sidebar-postion='right'] {
-            ~ .grid-container{
-                transform: translateX(-$side-bar-width);
-            }
-        }
+    If your main content is too big, it will break the grid.
+    */
+    &.g-cell--has-overflow {
+        overflow: visible;
     }
 }
 
 
 
 
+/* Media queries for responsive design.*/
 
+/* Cascading responsive sizes
+ *
+ * Design mobile first, styles for small screens will apply to everything
+ */
+
+@include responsive-padding($responsive-gutter-small);
+@include responsive-grid-aliased($responsive-grid-small);
+@include responsive-offset-aliased($responsive-offset-small);
+/* there is no size on this name, because we should be building mobile first */
+
+@media only screen and #{ $responsive-medium-up } {
+    @include responsive-padding($responsive-gutter-medium);
+    @include responsive-grid-aliased($responsive-grid-medium);
+    @include responsive-offset-aliased($responsive-offset-medium);
+}
+
+@media only screen and #{ $responsive-large-only } {
+    @include responsive-padding($responsive-gutter-large);
+    @include responsive-grid-aliased($responsive-grid-large);
+    @include responsive-offset-aliased($responsive-offset-large);
+}
+
+/* Non-cascading responsive styles
+ *
+ * These should only apply to one responsive size.
+ * These are after grid declarations so the display: none rule will override display: inline-block.
+ */
+
+@media only screen and #{ $responsive-medium-down } {
+    .g-grid.g-grid--page-margin-manual {
+        @include page-margin-manual;
+    }
+}
+
+@media only screen and #{ $responsive-small-only } {
+    @include responsive-hide('small');
+    @include responsive-show('medium', 'large');
+
+    .g-grid,
+    .g-group--page-margin-reset {
+        padding-left: $gutter;
+        padding-right: $gutter;
+    }
+}
+
+@media only screen and #{ $responsive-medium-only } {
+    @include responsive-hide('medium');
+    @include responsive-show('small', 'large');
+
+    .g-grid,
+    .g-group--page-margin-reset {
+        padding-left: $gutter;
+        padding-right: $gutter;
+    }
+}
+
+@media only screen and #{ $responsive-large-only } {
+    @include responsive-hide('large');
+    @include responsive-show('small', 'medium');
+}

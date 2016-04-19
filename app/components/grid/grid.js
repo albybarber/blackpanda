@@ -1,7 +1,6 @@
 import React from 'react'
 
-require('./grid.scss');
-
+import './grid.scss'
 
 export default class GridExample extends React.Component {
   constructor (props) {
@@ -36,34 +35,21 @@ export default class GridExample extends React.Component {
         <section data-sidebar-state={plopState} data-sidebar-type='plop' data-sidebar-postion='right' className="slidebar">
           <p>PLOP</p>
         </section>
-        <main className="grid-container">
-          <section className="row">
-            <div className="col-1">1</div>
-            <div className="col-1">2</div>
-            <div className="col-1">3</div>
-            <div className="col-1">4</div>
-            <div className="col-1">5</div>
-            <div className="col-1">6</div>
-            <div className="col-1">7</div>
-            <div className="col-1">8</div>
-            <div className="col-1">9</div>
-            <div className="col-1">10</div>
-            <div className="col-1">11</div>
-            <div className="col-1">12</div>
-          </section>
-          <section className="row">
-            <div className="col-2">
-              <div className="col-4">1.1</div>
-              <div className="col-4">2.2</div>
-              <div className="col-4">3.3</div>
+
+        <div className="g-grid styleguide-grid-coloring">
+            <div className="g-group">
+                <div className="g-cell g-cell-12-12 g-cell-md-4-12">
+                    <div className="styleguide-grid-content">A</div>
+                </div>
+                <div className="g-cell g-cell-12-12 g-cell-md-4-12">
+                    <div className="styleguide-grid-content">B</div>
+                </div>
+                <div className="g-cell g-cell-12-12 g-cell-md-4-12">
+                    <div className="styleguide-grid-content">C</div>
+                </div>
             </div>
-            <div className="col-2">2</div>
-            <div className="col-2">3</div>
-            <div className="col-2">4</div>
-            <div className="col-2">5</div>
-            <div className="col-2">6</div>
-          </section>
-        </main>
+        </div>
+
       </div>
     )
   }

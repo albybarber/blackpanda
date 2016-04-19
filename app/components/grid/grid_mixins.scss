@@ -1,0 +1,83 @@
+/* Used to add gutters and responsive padding classes responsively */
+@mixin responsive-padding($padding-size) {
+    .g-cell {
+        padding-left: $padding-size;
+        padding-right: $padding-size;
+    }
+
+    @for $i from 1 through 2 {
+        /* Used to provide appropriate sized gutters on off-grid elements */
+        .l-gutter-left-#{$i} {
+            padding-left: $padding-size * $i;
+        }
+
+        .l-gutter-right-#{$i} {
+            padding-right: $padding-size * $i;
+        }
+    }
+}
+
+/* Hide the element for a responsive size */
+@mixin responsive-hide($responsive-size) {
+    .hide-#{$responsive-size} {
+        display: none !important;
+    }
+
+    .hide-#{$responsive-size}-accessible {
+        position: absolute !important;
+        left: -999999px !important;
+    }
+}
+
+/* Hide the element for a responsive size */
+@mixin responsive-show($responsive-sizes...) {
+    @each $size in $responsive-sizes {
+        .show-#{$size} {
+            display: none !important;
+        }
+    }
+}
+
+/* Generate the grid for a responsive size */
+@mixin responsive-grid($responsive-size, $num-cols) {
+    @for $i from 1 through $num-cols {
+        .#{$responsive-size}-#{$i}-#{$num-cols} {
+            width: 100% * $i/$num-cols;
+        }
+    }
+}
+
+/* Generate the grid for a responsive size */
+@mixin responsive-offset($responsive-size, $num-cols) {
+    @for $i from 0 through ($num-cols - 1) {
+        .#{$responsive-size}-#{$i}-#{$num-cols} {
+            margin-left: 100% * $i/$num-cols;
+        }
+    }
+}
+
+/* This mixin makes duplicate 12 column grids, so that we can say grid-1of2 instead of grid-6of12 */
+@mixin responsive-grid-aliased($responsive-size) {
+    @include responsive-grid($responsive-size, 12);
+    @include responsive-grid($responsive-size, 9);
+    @include responsive-grid($responsive-size, 8);
+    @include responsive-grid($responsive-size, 4);
+    @include responsive-grid($responsive-size, 3);
+    @include responsive-grid($responsive-size, 2);
+    @include responsive-grid($responsive-size, 1);
+}
+
+@mixin responsive-offset-aliased($responsive-size) {
+    @include responsive-offset($responsive-size, 12);
+    @include responsive-offset($responsive-size, 9);
+    @include responsive-offset($responsive-size, 8);
+    @include responsive-offset($responsive-size, 4);
+    @include responsive-offset($responsive-size, 3);
+    @include responsive-offset($responsive-size, 2);
+    @include responsive-offset($responsive-size, 1);
+}
+
+@mixin page-margin-manual {
+    padding-left: 0;
+    padding-right: 0;
+}
