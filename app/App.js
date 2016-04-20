@@ -11,7 +11,7 @@ export default class App extends React.Component {
     return (
       <div>
         <Hello />
-        <Grid />
+        <grid />
       </div>
     )
   }
